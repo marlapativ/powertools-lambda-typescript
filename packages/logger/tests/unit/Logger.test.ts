@@ -5,11 +5,14 @@
  */
 import context from '@aws-lambda-powertools/testing-utils/context';
 import type { LambdaInterface } from '@aws-lambda-powertools/commons/types';
-import { Logger, LogFormatter } from '../../src/index.js';
+import { Logger, LogFormatter, LogLevel } from '../../src/index.js';
 import { ConfigServiceInterface } from '../../src/types/ConfigServiceInterface.js';
 import { EnvironmentVariablesService } from '../../src/config/EnvironmentVariablesService.js';
 import { PowertoolsLogFormatter } from '../../src/formatter/PowertoolsLogFormatter.js';
-import { LogLevelThresholds, LogLevel } from '../../src/types/Log.js';
+import {
+  LogLevelThresholds,
+  type LogLevel as LogLevelType,
+} from '../../src/types/Log.js';
 import {
   type LogFunction,
   type ConstructorOptions,
@@ -598,7 +601,7 @@ describe('Class: Logger', () => {
         test(`when the level is DEBUG, it ${debugAction} print to stdout`, () => {
           // Prepare
           const logger = new Logger({
-            logLevel: 'DEBUG',
+            logLevel: LogLevel.DEBUG,
           });
           const consoleSpy = jest.spyOn(
             logger['console'],
@@ -3153,7 +3156,7 @@ describe('Class: Logger', () => {
       const logger = new Logger();
 
       // Act & Assess
-      expect(() => logger.setLogLevel('INVALID' as LogLevel)).toThrow(
+      expect(() => logger.setLogLevel('INVALID' as LogLevelType)).toThrow(
         'Invalid log level: INVALID'
       );
     });
